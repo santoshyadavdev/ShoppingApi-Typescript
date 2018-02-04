@@ -1,32 +1,33 @@
 //const MongoClient = require('mongodb').MongoClient;
 
-import * as mongoDB from "mongodb";
+// import * as mongoDB from "mongodb";
 import { Order } from "../model/order";
 
-const MongoClient = mongoDB.MongoClient;
-const url = 'mongodb://localhost:27017';
+// const MongoClient = mongoDB.MongoClient;
+// const url = 'mongodb://localhost:27017';
 
-const dbname = 'ShoppingApi';
-let db: any;
+// const dbname = 'ShoppingApi';
+// let db: any;
 
-export class OrderDataAccess{
+export class OrderDataAccess {
 
-    connect(){
-        MongoClient.connect(url,function(err,client){
-            console.log("Connected");
-            return db = client.db(dbname);
-        });
+    constructor(private db: any) {
+        // console.log(db);
+    }
+    // connect(){
+    //     MongoClient.connect(url,function(err,client){
+    //         console.log("Connected");
+    //         return db = client.db(dbname);
+    //     });
+    // }
+
+    getOrders() {
+        // this.connect();
+        return this.db.collection('order').find({});
     }
 
-    getOrders(){
-        this.connect();
-        db.collection('orders').find().toArray(function  (err,doc){
-            return doc;
-        });
-    }
-
-    saveOrders(order:Order){
-        this.connect();
-        return db.collection('order').insertOne(order);
+    saveOrders(order: Order) {
+        //this.connect();
+        return this.db.collection('order').insertOne(order);
     }
 }

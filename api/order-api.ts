@@ -1,12 +1,18 @@
 import { OrderService } from './service/order-service';
 
 
-let orderService = new OrderService();
-export function orderApi(app) {
+
+export function orderApi(app, db) {
+    let orderService = new OrderService(db);
     app.get('/api/order', (req, res) => {
+        console.log('api request received');
         try {
-            res.send(orderService.getOrders());
-        }
+            console.log(orderService.getOrders());
+            orderService.getOrders().toArray((err, doc) => {
+                console.log(doc);
+                res.send(doc);
+            })
+        } 
         catch (e) {
             res.status(500).send(e);
         }
@@ -16,9 +22,8 @@ export function orderApi(app) {
         console.log(req.body);
         orderService.saveOrders(req.body).then((result) => {
             res.status(201).send(result);
-        }).catch((err)=> {
+        }).catch((err) => {
             res.status(500).send(err)
-        }); 
-        res.status(201).send(req.body)
+        });
     });
 }

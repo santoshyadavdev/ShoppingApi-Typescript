@@ -1,16 +1,16 @@
-import {Order}from '../model/order'
+import { Order } from '../model/order'
 
 import { OrderDataAccess } from '../dataaccess/order-data-access';
 
-export class OrderService{
-    orders: Order[]=[];
-    private orderdataaccess = new OrderDataAccess();
+export class OrderService {
+    orders: Order[] = [];
+    private orderdataaccess;
 
-    constructor(){
-
+    constructor(db: any) {
+         this.orderdataaccess = new OrderDataAccess(db);
     }
 
-    getOrders(){
+    getOrders() {
         // this.orders.push(
         //     {id : 1, orderDate:new Date('12-Jan-2017'), customerName: 'Swapnil', qty:10},
         //     {id : 2, orderDate:new Date('12-Jan-2016'), customerName: 'amit', qty:10},
@@ -20,10 +20,10 @@ export class OrderService{
 
         return this.orderdataaccess.getOrders();
     }
-    
-    saveOrders(order:Order){
+
+    saveOrders(order: Order) {
         return this.orderdataaccess.saveOrders(order);
-       // this.orders.push(order);
+        // this.orders.push(order);
     }
-    
+
 }
