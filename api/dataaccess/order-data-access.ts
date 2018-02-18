@@ -12,22 +12,23 @@ import { Order } from "../model/order";
 export class OrderDataAccess {
 
     constructor(private db: any) {
-        // console.log(db);
+
     }
-    // connect(){
-    //     MongoClient.connect(url,function(err,client){
-    //         console.log("Connected");
-    //         return db = client.db(dbname);
-    //     });
-    // }
+   
 
     getOrders() {
-        // this.connect();
-        return this.db.collection('order').find({});
+        return this.db.collection('order').find({},{"sort":[['id','asc']], "limit":2,"skip":0});
+    }
+
+    getOrderById(id: number) {
+        return this.db.collection('order').find({ id: id });
+    }
+
+    getOrderByName(name: string) {
+        return this.db.collection('order').find({ customerName: name });
     }
 
     saveOrders(order: Order) {
-        //this.connect();
         return this.db.collection('order').insertOne(order);
     }
 }

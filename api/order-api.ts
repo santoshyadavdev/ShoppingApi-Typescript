@@ -9,10 +9,39 @@ export function orderApi(app, db) {
         try {
             console.log(orderService.getOrders());
             orderService.getOrders().toArray((err, doc) => {
-                console.log(doc);
+                //console.log(doc);
                 res.send(doc);
             })
-        } 
+        }
+        catch (e) {
+            res.status(500).send(e);
+        }
+    });
+
+    app.get('/api/order/:id', (req, res) => {
+        console.log('api request received');
+        try {
+            console.log(req.params);
+            let id = parseInt(req.params.id)
+            orderService.getOrderById(id).toArray((err, doc) => {
+                //console.log(doc);
+                res.send(doc);
+            })
+        }
+        catch (e) {
+            res.status(500).send(e);
+        }
+    });
+
+    app.get('/api/order/search/:name', (req, res) => {
+        console.log('api request received');
+        try {
+            console.log(req.params.name);
+            let name = req.params.name;
+            orderService.getOrderByName(name).toArray((err, doc) => {
+                res.send(doc);
+            })
+        }
         catch (e) {
             res.status(500).send(e);
         }
